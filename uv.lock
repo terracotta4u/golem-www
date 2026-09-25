@@ -1,0 +1,23 @@
+version = 1
+revision = 3
+requires-python = ">=3.12"
+
+[[package]]
+name = "golem-agent-sdk"
+version = "0.1.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/81/02/574295bfe16447e9e967bf54a525134d2400a2b37b9bdba23750331f48bb/golem_agent_sdk-0.1.3.tar.gz", hash = "sha256:061bf07d90b94c8c2d008448b670d727aa88a1a3b8e1a15a67a9fc87371e282a", size = 12045, upload-time = "2026-09-25T02:14:02.104Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2f/d1/7b0a925acba4a49a67a8d347a39121a18389cec35c3bd3a5b247af19917d/golem_agent_sdk-0.1.3-py3-none-any.whl", hash = "sha256:1afd606926837d755c9fc336b0bf092085bf48fbf7a1844ea199e387d1120405", size = 15338, upload-time = "2026-09-25T02:14:00.951Z" },
+]
+
+[[package]]
+name = "golem-web"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "golem-agent-sdk" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "golem-agent-sdk", specifier = ">=0.1.3" }]
