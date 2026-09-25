@@ -1,7 +1,7 @@
 [project]
 name = "golem-web"
 version = "0.1.0"
-description = "Add your description here"
+description = "Web tools for Golem: search, read, and interact with the internet"
 readme = "README.md"
 authors = [
     { name = "Nawaz Gafar" }
