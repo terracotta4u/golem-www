@@ -1,8 +1,6 @@
 from trafilatura import bare_extraction
 
-CONTENT_LIMIT = 80_000
 EMPTY_PAGE = "No article text found."
-_TRUNCATED = "\n\n[content truncated]"
 
 
 def extract_page(html: str, url: str) -> dict[str, str]:
@@ -24,7 +22,7 @@ def extract_page(html: str, url: str) -> dict[str, str]:
         return {"url": url, "title": "", "content": EMPTY_PAGE}
     title = (document.title or "").strip()
     content = _content(title, (document.date or "").strip(), document.text.strip())
-    return {"url": url, "title": title, "content": _limit(content)}
+    return {"url": url, "title": title, "content": content}
 
 
 def _content(title: str, date: str, body: str) -> str:
@@ -41,10 +39,3 @@ def _content(title: str, date: str, body: str) -> str:
             return f"{first}\n\n{published}\n\n{rest}"
         return f"{first}\n\n{published}"
     return f"{published}\n\n{body}"
-
-
-def _limit(content: str) -> str:
-    if len(content) <= CONTENT_LIMIT:
-        return content
-    keep = CONTENT_LIMIT - len(_TRUNCATED)
-    return content[:keep].rstrip() + _TRUNCATED

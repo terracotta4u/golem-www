@@ -1,4 +1,4 @@
-from golem_www.extract import CONTENT_LIMIT, extract_page
+from golem_www.extract import extract_page
 
 ARTICLE = """<!DOCTYPE html>
 <html>
@@ -45,13 +45,11 @@ def test_empty_page_notes_missing_text() -> None:
     }
 
 
-def test_truncates_long_content() -> None:
+def test_keeps_the_full_article() -> None:
     sentence = "This sentence is unique enough to survive extraction. "
-    body = "STARTMARKER " + sentence * 2000 + " ENDMARKER should not survive the cap."
+    body = "STARTMARKER " + sentence * 2000 + " ENDMARKER stays in the article."
     html = f"<html><head><title>Long</title></head><body><article><p>{body}</p></article></body></html>"
     page = extract_page(html, "https://example.com/long")
     assert page["title"] == "Long"
-    assert len(page["content"]) <= CONTENT_LIMIT
-    assert page["content"].endswith("[content truncated]")
     assert "STARTMARKER" in page["content"]
-    assert "ENDMARKER" not in page["content"]
+    assert "ENDMARKER stays in the article." in page["content"]
