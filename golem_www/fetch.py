@@ -6,7 +6,7 @@ import httpx
 from golem_www.extract import extract_page
 
 CONTENT_LIMIT = 80_000
-MAX_BYTES = 2 * 1024 * 1024
+MAX_BYTES = 2 * 1024 * 1024  # TODO: keep an eye on this value
 _TOO_LARGE = "response is larger than 2 MiB and was not read"
 _CHROME = "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 _USER_AGENTS = {
