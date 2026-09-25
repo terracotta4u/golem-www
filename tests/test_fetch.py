@@ -4,8 +4,8 @@ import httpx
 import pytest
 from golem.tool import schema
 
-from golem_web import tools, web_fetch
-from golem_web.fetch import _body, fetch_page, user_agent
+from golem_www import tools, web_fetch
+from golem_www.fetch import _body, fetch_page, user_agent
 from tests.test_extract import ARTICLE
 
 
@@ -95,7 +95,7 @@ def test_html_uses_extractor_and_final_url() -> None:
 def test_web_fetch_returns_plain_text(monkeypatch: pytest.MonkeyPatch) -> None:
     transport = httpx.MockTransport(lambda request: _ok("hello", "text/plain"))
     monkeypatch.setattr(
-        "golem_web.fetch._client",
+        "golem_www.fetch._client",
         lambda: httpx.Client(transport=transport),
     )
     assert web_fetch("https://example.com/hello")["content"] == "hello"

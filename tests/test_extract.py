@@ -1,4 +1,4 @@
-from golem_web.extract import CONTENT_LIMIT, extract_page
+from golem_www.extract import CONTENT_LIMIT, extract_page
 
 ARTICLE = """<!DOCTYPE html>
 <html>

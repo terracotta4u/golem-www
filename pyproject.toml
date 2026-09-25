@@ -1,5 +1,5 @@
 [project]
-name = "golem-web"
+name = "golem-www"
 version = "0.1.0"
 description = "Web tools for Golem: search, read, and interact with the internet"
 readme = "README.md"
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [tool.golem]
-tools = "golem_web:tools"
+tools = "golem_www:tools"
 
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]

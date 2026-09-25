@@ -3,7 +3,7 @@ from urllib.parse import urlsplit
 
 import httpx
 
-from golem_web.extract import _limit, extract_page
+from golem_www.extract import _limit, extract_page
 
 MAX_BYTES = 2 * 1024 * 1024
 _CHROME = "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
