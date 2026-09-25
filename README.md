@@ -22,3 +22,9 @@ Ask Golem to read a page. It should call `web_fetch` with the URL and gets:
 
 `content` is the article in Markdown. Navigation, scripts, and styles are left out.
 
+## Tools
+
+| Tool | Description | Arguments | Returns |
+| --- | --- | --- | --- |
+| `web_fetch` | Fetch a URL and return its title and main text as Markdown. | `url` (string, required) | `url`, `title`, `content` |
+
