@@ -1,3 +1,4 @@
+import platform
 from urllib.parse import urlsplit
 
 import httpx
@@ -5,11 +6,12 @@ import httpx
 from golem_web.extract import _limit, extract_page
 
 MAX_BYTES = 2 * 1024 * 1024
-USER_AGENT = (
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/131.0.0.0 Safari/537.36"
-)
+_CHROME = "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+_USER_AGENTS = {
+    "Darwin": f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) {_CHROME}",
+    "Linux": f"Mozilla/5.0 (X11; Linux x86_64) {_CHROME}",
+    "Windows": f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) {_CHROME}",
+}
 _HTML = "text/html"
 _TEXT = {"text/plain", "text/markdown"}
 
@@ -49,8 +51,14 @@ def _client() -> httpx.Client:
         follow_redirects=True,
         max_redirects=5,
         timeout=20.0,
-        headers={"User-Agent": USER_AGENT},
+        headers={"User-Agent": user_agent()},
     )
+
+
+def user_agent(system: str | None = None) -> str:
+    """Browser User-Agent for this host. Unknown systems use the Linux string."""
+    name = platform.system() if system is None else system
+    return _USER_AGENTS.get(name, _USER_AGENTS["Linux"])
 
 
 def _check_url(url: str) -> None:

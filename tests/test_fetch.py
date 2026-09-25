@@ -1,9 +1,11 @@
+import platform
+
 import httpx
 import pytest
 from golem.tool import schema
 
 from golem_web import tools, web_fetch
-from golem_web.fetch import USER_AGENT, _body, fetch_page
+from golem_web.fetch import _body, fetch_page, user_agent
 from tests.test_extract import ARTICLE
 
 
@@ -12,7 +14,7 @@ def _transport(handler) -> httpx.Client:
         transport=httpx.MockTransport(handler),
         follow_redirects=True,
         max_redirects=5,
-        headers={"User-Agent": USER_AGENT},
+        headers={"User-Agent": user_agent()},
     )
 
 
@@ -77,7 +79,7 @@ def test_plain_text_and_markdown_skip_extraction() -> None:
 
 def test_html_uses_extractor_and_final_url() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
-        assert request.headers["user-agent"] == USER_AGENT
+        assert request.headers["user-agent"] == user_agent()
         if request.url.path == "/jump":
             return httpx.Response(302, headers={"location": "https://example.com/article"})
         return _ok(ARTICLE, "text/html; charset=utf-8")
@@ -97,6 +99,14 @@ def test_web_fetch_returns_plain_text(monkeypatch: pytest.MonkeyPatch) -> None:
         lambda: httpx.Client(transport=transport),
     )
     assert web_fetch("https://example.com/hello")["content"] == "hello"
+
+
+def test_user_agent_matches_host() -> None:
+    assert "Macintosh" in user_agent("Darwin")
+    assert "Linux" in user_agent("Linux")
+    assert "Windows" in user_agent("Windows")
+    assert user_agent("FreeBSD") == user_agent("Linux")
+    assert user_agent() == user_agent(platform.system())
 
 
 def test_body_stops_at_two_mebibytes() -> None:
